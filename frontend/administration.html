@@ -1,0 +1,127 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="icon" type="image/x-icon" href="/assets/logo.svg">
+  <link href="/assets/style.css" rel="stylesheet">
+  <script type="module" src="./js/mainAdmin.js"></script>
+  <script type="module" src="./js/utils/auth/menuViewer.js"></script>
+  <title>Zik</title>
+</head>
+
+<div id="app" hidden>
+  <body class="bg-gradient-to-b from-[#2F4558] to-[#335F8A] w-full bg-fixed bg-cover bg-center bg-no-repeat">
+    <nav class="relative bg-gray-900/50 after:pointer-events-none after:absolute after:inset-x-0 after:bottom-0 after:h-px after:bg-white/10">
+      <nav class="fixed top-0 w-full z-50 bg-gray-900/60 backdrop-blur-md text-white">
+
+        <div class="mx-auto max-w-7xl px-2 md:px-6 lg:px-10">
+          <div class="relative flex h-18 items-center justify-between">
+            <div class="absolute inset-y-0 right-0 flex items-center md:hidden">
+
+              <!--bg-white/5 -->
+              <!-- Mobile menu opener-->
+              <button type="button" onclick="document.getElementById('mobile-menu').toggleAttribute('hidden')" command="--toggle" commandfor="mobile-menu" class="relative inline-flex items-center justify-center rounded-md p-2 text-gray-400 hover:bg-white/5  hover:text-white focus:outline-2 focus:-outline-offset-1 focus:outline-indigo-500">
+                <span class="absolute -inset-0.5"></span>
+                <span class="sr-only">Open main menu</span>
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" data-slot="icon" aria-hidden="true" class="size-6 in-aria-expanded:hidden">
+                  <path d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" stroke-linecap="round" stroke-linejoin="round" />
+                </svg>
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" data-slot="icon" aria-hidden="true" class="size-6 not-in-aria-expanded:hidden">
+                  <path d="M6 18 18 6M6 6l12 12" stroke-linecap="round" stroke-linejoin="round" />
+                </svg>
+              </button>
+            </div>
+
+            <!-- COMPUTER MENU -->
+            <div class="flex flex-1 items-center justify-center md:items-stretch md:justify-start">
+              <div class="flex shrink-0 items-center">
+                <img src="assets/logo.svg" alt="le Zik" class="h-10 w-auto" />
+              </div>
+
+              <div class="hidden md:ml-6 md:flex md:flex-1 items-center justify-between">
+                <!-- Group 1 : left links -->
+                <div class="flex space-x-4">
+                  <a href="index.html" class="rounded-md px-3 py-2 text-lg font-medium text-gray-300 hover:bg-white/5 hover:text-white">Accueil</a>
+                  <a href="https://lydia.me" target="_blank" class="rounded-md px-3 py-2 text-lg font-medium text-gray-300 hover:bg-white/5 hover:text-white">Cotiser</a>
+                  <a href="planning.html" class="mustMember rounded-md px-3 py-2 text-lg font-medium text-gray-300 hover:bg-white/5 hover:text-white" hidden>Planning</a>
+                  <a href="#" aria-current="page" class="mustAdmin rounded-md bg-gray-950/50 px-3 py-2 text-lg font-medium text-white" hidden>Administration</a>
+                </div>
+
+                <!-- Group 2 : right links -->
+                <div class="flex space-x-4">
+                  <a href="login.html" class="mustDisconnected rounded-md px-3 py-2 text-lg font-medium text-gray-300 hover:bg-white/5 hover:text-white">Connexion</a> 
+                  <a href="http://localhost:8080/logout" class="mustConnected rounded-md px-3 py-2 text-lg font-medium text-gray-300 hover:bg-white/5 hover:text-white" hidden>Déconnexion</a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+<!-- APPEARING MENU WHEN RESPONSIVE-->
+<el-disclosure id="mobile-menu" hidden class="block md:hidden transition-all duration-200 ease-in-out" >
+  <div class="space-y-1 px-2 pt-2 pb-3">
+    <!-- Current: "bg-gray-950/50 text-white", Default: "text-gray-300 hover:bg-white/5 hover:text-white" -->
+    <a href="index.html" class="block rounded-md px-3 py-2 text-base font-medium text-gray-300 hover:bg-white/5 hover:text-white">Accueil</a>
+    <a href="https://lydia.me" target="_blank" class="block rounded-md px-3 py-2 text-base font-medium text-gray-300 hover:bg-white/5 hover:text-white">Cotiser</a>
+    <a href="planning.html" class="mustMember block rounded-md px-3 py-2 text-base font-medium text-gray-300 hover:bg-white/5 hover:text-white" hidden>Planning</a>
+    <a href="#" aria-current="page" class="mustAdmin block rounded-md bg-gray-950/50 px-3 py-2 text-base font-medium text-white" hidden>Administration</a>  
+    <a href="login.html" class="mustDisconnected block rounded-md px-3 py-2 text-base font-medium text-gray-300 hover:bg-white/5 hover:text-white">Connexion</a>
+    <a href="http://localhost:8080/logout" class="mustConnected block rounded-md px-3 py-2 text-base font-medium text-gray-300 hover:bg-white/5 hover:text-white" hidden>Déconnexion</a>
+  </div>
+</el-disclosure>
+</nav>
+</nav>
+
+<br/><br><br>
+<br/><br><br>
+
+
+<div class="w-3/4 bg-gray-900/80 py-10 px-4 mx-auto rounded-2xl" >
+  <div class="max-w-4xl mx-auto">
+    <h1 class="text-4xl md:text-6xl font-bold mb-6 text-gray-300 text-center">Administration</h1>
+    <div class="text-xl md:text-3xl mb-8 text-gray-300 text-left">
+     <div class="text-center">
+      <br/>
+      <button type="button" id="manageUsers" class="text-black uppercase bg-[#EDA611] font-bold rounded-lg text-lg px-5 py-2.5 text-center hover:bg-[#F4C566] hover:cursor-pointer" id="reserveSlot">Gérer les utilisateurs</button> <br/><br/>
+
+    </div>
+
+
+    <div id="manageUserForm" class="fixed inset-0 bg-black/40 backdrop-blur-sm flex items-center justify-center z-50" hidden>
+      <div class="bg-[#263E54] rounded-2xl shadow-xl w-160 p-10 relative text-white">
+        <button id="closeManageUserForm" class="absolute top-3 right-3 hover:text-[#B8B6B6] hover:cursor-pointer">
+          ✕
+        </button>
+        <h2 class="text-2xl font-bold mb-4 text-center md:text-4xl">Gérer l'utilisateur</h2>
+        &nbsp;
+
+        <form class="space-y-3">
+
+          <div>
+            <label class="block text-lg font-medium mb-1">login CAS de l'utilisateur</label>
+            <input type="text" id="manageUserLoginCas" class=" text-base w-full font-medium border rounded-lg px-2 py-2 focus:ring-2 focus:ring-blue-500 outline-none"><br/><br/>
+            <button type="button" id="searchUserButton" class="text-xl w-full text-black font-bold py-2 rounded-lg transition bg-[#EDA611] hover:bg-[#F4C566] hover:cursor-pointer">Rechercher</button>
+          </div>
+          <br/>
+          <label for="isUserAdmin" value="isUserAdmin" class="text-lg font-medium mb-1 w-[50%]">Utilisateur ADMIN ?&ensp;</label>
+          <input type="checkbox" id="isUserAdmin" class="px-3 py-2 focus:ring-2 focus:ring-blue-500 outline-none"><br/>
+          <label for="isUserMember" value="isUserMember" class="text-lg font-medium mb-1 w-[50%]">Utilisateur Cotisant ?&ensp;</label>
+          <input type="checkbox" id="isUserMember" class="px-3 py-2 focus:ring-2 focus:ring-blue-500 outline-none"><br/><br/>
+          <button type="button" id="validateManageUsers" class="w-full text-black font-bold py-2 rounded-lg transition bg-[#EDA611] hover:bg-[#F4C566] hover:cursor-pointer text-xl">Valider</button>
+          &nbsp;
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+</div>
+</div>
+</div>
+</div>
+
+
+
+</body>
+</html>

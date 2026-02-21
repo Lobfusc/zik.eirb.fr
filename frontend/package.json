@@ -1,0 +1,19 @@
+{
+  "name": "zik",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite --host",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "devDependencies": {
+    "vite": "^7.3.0"
+  },
+  "dependencies": {
+    "@tailwindcss/vite": "^4.1.14",
+    "dompurify": "^3.3.1",
+    "tailwindcss": "^4.1.14"
+  }
+}

@@ -1,0 +1,101 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="icon" type="image/x-icon" href="/assets/logo.svg">
+  <link href="/assets/style.css" rel="stylesheet">
+  <script type="module" src="./js/utils/auth/menuViewer.js"></script>
+  <title>Zik</title>
+</head>
+
+<body class="bg-[url(/assets/cover.png)] w-full bg-fixed bg-cover bg-center bg-no-repeat">
+
+  <nav class="relative bg-gray-900/50 after:pointer-events-none after:absolute after:inset-x-0 after:bottom-0 after:h-px after:bg-white/10">
+    <nav class="fixed top-0 w-full z-50 bg-gray-900/60 backdrop-blur-md text-white">
+
+      <div class="mx-auto max-w-7xl px-2 md:px-6 lg:px-10">
+        <div class="relative flex h-18 items-center justify-between">
+          <div class="absolute inset-y-0 right-0 flex items-center md:hidden">
+
+            <!--bg-white/5 -->
+            <!-- Mobile menu opener-->
+            <button type="button" onclick="document.getElementById('mobile-menu').toggleAttribute('hidden')" command="--toggle" commandfor="mobile-menu" class="relative inline-flex items-center justify-center rounded-md p-2 text-gray-400 hover:bg-white/5  hover:text-white focus:outline-2 focus:-outline-offset-1 focus:outline-indigo-500">
+              <span class="absolute -inset-3"></span>
+              <span class="sr-only">Open main menu</span>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" data-slot="icon" aria-hidden="true" class="size-6 in-aria-expanded:hidden">
+                <path d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" stroke-linecap="round" stroke-linejoin="round" />
+              </svg>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" data-slot="icon" aria-hidden="true" class="size-6 not-in-aria-expanded:hidden">
+                <path d="M6 18 18 6M6 6l12 12" stroke-linecap="round" stroke-linejoin="round" />
+              </svg>
+            </button>
+          </div>
+
+          <!-- COMPUTER MENU -->
+          <div class="flex flex-1 items-center justify-center md:items-stretch md:justify-start">
+            <div class="flex shrink-0 items-center">
+              <img src="assets/logo.svg" alt="le Zik" class="h-10 w-auto" />
+            </div>
+
+            <div class="hidden md:ml-6 md:flex md:flex-1 items-center justify-between">
+              <!-- Group 1 : left links -->
+              <div class="flex space-x-4">
+                <a href="#" aria-current="page" class="rounded-md bg-gray-950/50 px-3 py-2 text-lg font-medium text-white">Accueil</a>
+                <a href="https://lydia.me" target="_blank" class="rounded-md px-3 py-2 text-lg font-medium text-gray-300 hover:bg-white/5 hover:text-white">Cotiser</a>
+                <a href="planning.html" class="rounded-md px-3 py-2 text-lg font-medium text-gray-300 hover:bg-white/5 hover:text-white mustMember" hidden>Planning</a>
+                <a href="administration.html" class="rounded-md px-3 py-2 text-lg font-medium text-gray-300 hover:bg-white/5 hover:text-white mustAdmin" hidden>Administration</a>
+              </div>
+
+              <!-- Group 2 : right links -->
+              <div class="flex space-x-4">
+
+                <a href="login.html" class=" mustDisconnected rounded-md px-3 py-2 text-lg font-medium text-gray-300 hover:bg-white/5 hover:text-white">Connexion</a>
+                <a href="http://localhost:8080/logout" class="mustConnected rounded-md px-3 py-2 text-lg font-medium text-gray-300 hover:bg-white/5 hover:text-white" hidden>Déconnexion</a> 
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+<!-- APPEARING MENU WHEN RESPONSIVE-->
+<el-disclosure id="mobile-menu" hidden class="block md:hidden transition-all duration-200 ease-in-out" >
+  <div class="space-y-1 px-2 pt-2 pb-3">
+    <!-- Current: "bg-gray-950/50 text-white", Default: "text-gray-300 hover:bg-white/5 hover:text-white" -->
+    <a href="#" aria-current="page" class="block rounded-md bg-gray-950/50 px-3 py-2 text-base font-medium text-white">Accueil</a>
+    <a href="https://lydia.me" target="_blank" class="block rounded-md px-3 py-2 text-base font-medium text-gray-300 hover:bg-white/5 hover:text-white">Cotiser</a>
+    <a href="planning.html" class="mustMember block rounded-md px-3 py-2 text-base font-medium text-gray-300 hover:bg-white/5 hover:text-white" hidden>Planning</a>
+    <a href="administration.html" class=" mustAdmin block rounded-md px-3 py-2 text-base font-medium text-gray-300 hover:bg-white/5 hover:text-white" hidden>Administration</a>
+
+    <a href="login.html" class="mustDisconnected block rounded-md px-3 py-2 text-base font-medium text-gray-300 hover:bg-white/5 hover:text-white">Connexion</a>
+    <a href="http://localhost:8080/logout" class="mustConnected block rounded-md px-3 py-2 text-base font-medium text-gray-300 hover:bg-white/5 hover:text-white" hidden>Déconnexion</a>
+  </div>
+</el-disclosure>
+</nav>
+</nav>
+
+<!--BODY TEXT-->
+
+<br/><br><br>
+<br/><br><br>
+
+<div class="w-3/4 bg-gray-900/80 py-10 px-4 mx-auto rounded-2xl" >
+  <div class="max-w-4xl mx-auto">
+    <h1 class="text-4xl md:text-6xl font-bold mb-6 text-gray-300 text-center">Le Zik</h1>
+    <p class="text-xl md:text-2xl mb-8 text-gray-300 text-center">de l'Enseirb-Matmeca</p>
+
+    <br/>
+
+    <p class="text-lg sm:text-base md:text-lg mb-8 text-gray-300 text-left">
+      Depuis près d'un demi-siècle, le club Zik de l'ENSEIRB-MATMECA fait vivre le coeur musical de notre belle école. <br/>Bienvenue à vous tous, chers musiciens, musiciennes et chers Enseirbiens. Le Club Zik organise vos évènements musicaux sur le campus, anime vos soirées, a fait et fera bouger des générations d'Enseirbien.ne.s ! <br/><br/>
+
+      Tu veux remplir les plus grandes salles de l'ENSEIRB-MATMECA ? Animer les grandes soirées de ton école avec tes musiques préférées ? Faire des prestations à l'extérieur ? Ou tout simplement répéter avec ta bande de potes ? <br/> <br/>Le Club Zik est fait pour toi ! Il te mettra à disposition une riche salle de répétition : claviers, guitares, basses, batteries, percussions, micros et bien plus encore... <br/><br/>Mais également du matériel de sonorisation : enceintes, tables de mixage, amplificateurs, etc. Au Zik, tout est possible jeune Enseirbien.ne ! Que tu aimes le Rock, la Pop, la Funk, la Variété Française, le Métal ou le Blues, le Zik et ses musiciens de talent t’attendent !<br/><br/>
+
+    Allez, file galopin ! File vers les portes du Zik qui n’attendent que toi !</p>
+    
+
+  </div>
+</div>
+
+</body>
+</html>
