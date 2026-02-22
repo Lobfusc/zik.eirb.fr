@@ -1,6 +1,6 @@
 //BACKEND CONFIG
 const server = 'http://localhost:8080';
-const backend_reserve_a_date = "/reservation";
+const backend_reserve_a_date = "/api/reservation";
 
 //CONFIG
 const default_hour = 8;

@@ -38,9 +38,9 @@ app.use(cors({
   credentials: true,
 }))
 
-app.use('/', auth_routes) //TODO : get /api
-app.use('/', reservation_routes)
-app.use('/', admin_routes)
+app.use('/api', auth_routes)
+app.use('/api', reservation_routes)
+app.use('/api', admin_routes)
 
 // Test Route
 app.get('/', (req, res) => {

@@ -99,7 +99,7 @@ export async function disconnect(token){
     )
 
   let redirectTo = client.buildEndSessionUrl(config, {
-    post_logout_redirect_uri: 'http://localhost:8080/frontend',
+    post_logout_redirect_uri: 'http://localhost:8080/api/frontend',
     id_token_hint: token,
   })
 

@@ -2,8 +2,8 @@ import DOMPurify from 'dompurify';
 import {getUsername, userIsAdmin} from '../auth/auth.js';
 //This is the date of the current session
 let ACTUAL_DISPLAY_DATE = new Date();
-const BACKEND_RES = "http://localhost:8080/getReservationsOnDate"
-const BACKEND_DEL_RES = "http://localhost:8080/deleteReservation"
+const BACKEND_RES = "http://localhost:8080/api/getReservationsOnDate"
+const BACKEND_DEL_RES = "http://localhost:8080/api/deleteReservation"
 
 //Little Doc : 
 //it works : 

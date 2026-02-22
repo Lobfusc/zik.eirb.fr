@@ -9,7 +9,7 @@ const router = express.Router();
 
 router.get('/login', async (req, res) => {
   try {
-    const { redirectUrl, code_verifier, state} = await login(`http://localhost:${process.env.PORT}/auth/callback`);
+    const { redirectUrl, code_verifier, state} = await login(`http://localhost:${process.env.PORT}/api/auth/callback`);
     //Save in the session 
     req.session.code_verifier = code_verifier;
     req.session.state = state;

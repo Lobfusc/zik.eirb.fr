@@ -1,7 +1,7 @@
 //BACKEND CONFIG
 const server = 'http://localhost:8080';
-const backend_search_user = "/searchUser";
-const backend_change_perms = "/changePerms";
+const backend_search_user = "/api/searchUser";
+const backend_change_perms = "/api/changePerms";
 
 function errorMessage(msg){
   alert(msg)

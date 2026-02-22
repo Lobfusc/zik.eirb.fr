@@ -1,5 +1,5 @@
-const BACKEND_ME = "http://localhost:8080/me"
-const BACKEND_LOGIN = "http://localhost:8080/login"
+const BACKEND_ME = "http://localhost:8080/api/me"
+const BACKEND_LOGIN = "http://localhost:8080/api/login"
 
 document.addEventListener("DOMContentLoaded", ()=>
 {
