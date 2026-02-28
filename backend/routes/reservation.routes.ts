@@ -12,7 +12,6 @@ router.post('/reservation', async (req, res) => {
   //accepted is after tests of the controller,
   //rsp.msg is the error message
   const rsp = await reserve_slot(req);
-
   //If all tests are good: 
   if (rsp.accepted === true){
     res.status(201).json({
@@ -75,7 +74,6 @@ router.get("/deleteReservation", async (req, res) => {
       })
     }
   } catch (error) {
-    console.log(error);
     res.status(501).json({
       success: false,
       message: "Erreur : problème serveur, veuillez réessayer plus tard ",

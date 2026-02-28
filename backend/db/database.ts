@@ -13,9 +13,10 @@ export function initDB(){
   db = pgp(url)
   //execute()
 }
-async function execute(){
-  //const data = await db.any('SELECT * FROM timetable WHERE ')
-}
+//async function execute(){
+//  const data = await db.any('SELECT * FROM users')
+//  console.log(data);
+//}
 //-- ADMIN DATABASE --
 export async function userExists(login){
   let login_san = "";
@@ -163,7 +164,6 @@ export async function getOwnerByRes(id_res){
     let owner = await db.one("SELECT users.login_cas FROM timetable JOIN users ON timetable.id_user = users.id_user WHERE id=$1", id_res);
     return {accepted: true, msg:"Succès", value:owner.login_cas};
   } catch (error) {
-    console.log(error);
     return {accepted: false, msg:"Erreur : problème lors de la réservation", value:""};
   }
   return {accepted: false, msg:"Erreur : problème lors de la réservation", value:""};

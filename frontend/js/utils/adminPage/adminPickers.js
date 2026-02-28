@@ -1,5 +1,4 @@
 //BACKEND CONFIG
-const server = 'http://localhost:8080';
 const backend_search_user = "/api/searchUser";
 const backend_change_perms = "/api/changePerms";
 
@@ -40,7 +39,7 @@ export async function searchUser(){
   }
     //Fetch the values of the form
   try {
-    const res = await fetch(server + backend_search_user, {method: "POST", headers:{"content-type": "application/json"}, credentials: "include", body:JSON.stringify(request) });
+    const res = await fetch(backend_search_user, {method: "POST", headers:{"content-type": "application/json"}, credentials: "include", body:JSON.stringify(request) });
     const data = await res.json()
     if (!res.ok){
      errorMessage(data.message);
@@ -70,7 +69,7 @@ export async function validationOfManageUsers(){
   }
     //Fetch the values of the checkboxes
   try {
-    const res = await fetch(server + backend_change_perms, {method: "POST", headers:{"content-type": "application/json"}, credentials: "include", body:JSON.stringify(request) });
+    const res = await fetch(backend_change_perms, {method: "POST", headers:{"content-type": "application/json"}, credentials: "include", body:JSON.stringify(request) });
     const data = await res.json()
     if (!res.ok){
      errorMessage(data.message);

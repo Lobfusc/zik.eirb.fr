@@ -2,8 +2,8 @@ import DOMPurify from 'dompurify';
 import {getUsername, userIsAdmin} from '../auth/auth.js';
 //This is the date of the current session
 let ACTUAL_DISPLAY_DATE = new Date();
-const BACKEND_RES = "http://localhost:8080/api/getReservationsOnDate"
-const BACKEND_DEL_RES = "http://localhost:8080/api/deleteReservation"
+const BACKEND_RES = "/api/getReservationsOnDate"
+const BACKEND_DEL_RES = "/api/deleteReservation"
 
 //Little Doc : 
 //it works : 
@@ -59,7 +59,6 @@ async function displayReservationsOfTheDate(date, day){
     const new_date = new Date(date);
     const res = await fetch(BACKEND_RES + `?date=${new_date}`, { credentials: "include",});
     const data = await res.json();
-    console.log(data);
     const client_username = await getUsername();
     const is_client_admin = await userIsAdmin();
     if (res.ok){ //Ok when no problem

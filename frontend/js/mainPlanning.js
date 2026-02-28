@@ -60,7 +60,6 @@ submitResForm.addEventListener("click", ()=>
 });
 
 
-//TODO : I have to verify that the hours are not empty on the front and on the back
 
 // -- PLANNING PAGE HOUR PICKER -- \\
 

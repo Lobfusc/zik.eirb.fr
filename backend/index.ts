@@ -4,7 +4,7 @@ import pgPromise from 'pg-promise'
 import cors from 'cors'
 
 import dotenv from 'dotenv'
-dotenv.config({path : "process.env"}) //Environement variables
+//dotenv.config(/*{path : "../process.env"}*/) //Environement variables
 
 const port = process.env.PORT
 
@@ -33,8 +33,9 @@ app.use(session({
 
 //Middleware
 app.use(express.json());
+app.set('trust proxy', 1);
 app.use(cors({
-  origin: 'http://localhost:5173', 
+  origin: 'http://frontend', 
   credentials: true,
 }))
 
@@ -48,6 +49,6 @@ app.get('/', (req, res) => {
 });
 
 app.listen(port, () => {
-  console.log(`Serveur backend lancé sur http://localhost:${port}`);
+  console.log(`Serveur backend lancé sur le port ${port}`);
 });
 

@@ -38,6 +38,3 @@ validateManageUsers.addEventListener("click", ()=>{
 })
 
 // -- END ADMIN PAGE -- \\
-//
-// A verifier, lors de la connexion sur une page avec un login, soit il y a un jwt, dans le cas on le vérifie, 
-// soit il en a pas on redirige vers la page de connexion de eirbconnect.

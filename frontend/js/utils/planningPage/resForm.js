@@ -1,5 +1,4 @@
 //BACKEND CONFIG
-const server = 'http://localhost:8080';
 const backend_reserve_a_date = "/api/reservation";
 
 //CONFIG
@@ -10,13 +9,6 @@ const default_min_interval_for_res = 15;
 const start_hour = 7;
 const end_hour = 22;
 const interval_btw_min = 15;
-
-/*
-  fetch(server)
-  .then(res => res.json())
-  .then(data => console.log(data))
-*/
-
 //GLOBALS
 let hour;
 let minutes;
@@ -30,9 +22,6 @@ let end_res_min = null;
 
 let date_reservation = null; 
 
-//TODO : REQUEST TO THE BACK TO DISPLAY THE BUTTON
-//TODO : Pas plus de 3h de résa pour les membres
-
 function userCanSeeAdminViews(){
 	return 1;
 }
@@ -43,9 +32,14 @@ export function toogleVisResForm(){
    let day = date.getDate();
    let month_plus_one = date.getMonth()+1;
 
+
    if (document.getElementById('modalOverlay').getAttribute('hidden') !== null){
     document.getElementById("resDate").textContent = "Réserver pour le " + day + "/" + month_plus_one;
-    document.getElementById("dateReservation").value = date.toISOString().split("T")[0]; // "2026-02-18"
+    //Put the Actual date for the resa
+    const year = date.getFullYear();
+    const month_pad = String(date.getMonth() + 1).padStart(2, '0')
+    const day_pad = String(date.getDate()).padStart(2, '0');
+    document.getElementById("dateReservation").value = `${year}-${month_pad}-${day_pad}`;
 }
 document.getElementById('modalOverlay').toggleAttribute('hidden');
 
@@ -84,7 +78,7 @@ export function reserveADate(){
 }else{
     //Fetch the values of the form
     try {
-      fetch(server + backend_reserve_a_date,{
+      fetch(backend_reserve_a_date,{
         method : "POST",
         headers:{
           "content-type": "application/json"
@@ -102,7 +96,6 @@ export function reserveADate(){
 })
 
 } catch (error) {
-  console.log(error);
 }
 
 }
@@ -277,13 +270,5 @@ export function validateHourPicker(){
 		end_res_min = minutes;	
 		refresh_end_label();
 	}
-  /*
-	const actual_date = new Date();
-    if (date_reservation == null){
-		errorMessage("Veuillez choisir une date de réservation");
-	} *///else if (date_reservation == " < date"){
-	//	errotMessage("Veuillez choisir une date non passée");
-	//else{
   toggleVisHourPicker();
-	//}//TODO vérifier que le nom de la réservation n'est pas vide
 }

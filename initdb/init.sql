@@ -1,0 +1,7 @@
+CREATE DATABASE zik;
+\c zik
+CREATE TABLE users(id_user SERIAL PRIMARY KEY, login_cas TEXT UNIQUE, admin BOOLEAN NOT NULL DEFAULT FALSE, member BOOLEAN NOT NULL DEFAULT FALSE);
+CREATE TABLE timetable(id SERIAL PRIMARY KEY, name TEXT, start_date TIMESTAMP NOT NULL, end_date TIMESTAMP NOT NULL, id_user INTEGER NOT NULL REFERENCES users(id_user), res_admin BOOLEAN DEFAULT FALSE, CHECK(start_date<end_date), EXCLUDE USING GIST(TSRANGE(start_date, end_date) WITH &&));
+
+
+

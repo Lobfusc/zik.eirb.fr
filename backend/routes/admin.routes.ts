@@ -95,7 +95,6 @@ router.post('/changePerms', async (req, res) => {
       return;
     }
   }catch(error){
-    console.log(error)
     res.status(500).json({
       success: false,
       message: "Erreur : problème serveur, veuillez vous réessayer plus tard"

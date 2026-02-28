@@ -4,10 +4,8 @@
   "description": "",
   "main": "index.ts",
   "scripts": {
-    "_comment start": "node server.ts",
-    "_comment dev": "nodemon server.js",
-    "dev": "nodemon --watch '*/*.ts' --exec 'ts-node' index.ts",
-    "__test": "echo 'Error: no test specified' && exit 1"
+    "start": "node index.ts",
+    "dev": "nodemon --watch '*/*.ts' --exec 'ts-node' index.ts"
   },
   "keywords": [],
   "author": "",

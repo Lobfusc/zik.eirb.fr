@@ -1,0 +1,60 @@
+services:
+  frontend:
+    build: 
+      context: ./frontend/
+    container_name: frontend
+    working_dir: /app
+    networks:
+      - node-network
+    tty: true
+    volumes:
+      - ./frontend:/app
+      - /app/node_modules
+
+  backend:
+    env_file:
+      - ./process.env
+    build: 
+      context: ./backend/
+    container_name: backend
+    working_dir: /app
+    networks:
+      - node-network
+    volumes: 
+      - ./backend/:/app
+      - /app/node_modules
+    tty: true
+    depends_on:
+      - db
+
+  db:
+    env_file:
+      - ./process.env
+    image: postgres
+    container_name: db
+    restart: always
+    tty: true
+    volumes:
+      - ./initdb/:/docker-entrypoint-initdb.d
+      - ./data:/var/lib/postgresql
+    networks:
+      - node-network
+
+  nginx:
+    build:
+      context: ./nginx/
+    container_name: nginx
+    restart: always
+    tty: true
+    ports:
+      - "80:80"
+      - "8080:80"
+    networks: 
+      - node-network
+    depends_on:
+      - frontend
+      - backend
+
+networks:
+  node-network:
+    driver: bridge
