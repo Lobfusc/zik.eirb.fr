@@ -11,12 +11,7 @@ export function initDB(){
   pgp = pgPromise({/*Options*/})
   url = `postgres://${process.env.POSTGRES_USER}:${process.env.POSTGRES_PASSWORD}@${process.env.POSTGRES_SERVER}:${process.env.POSTGRES_PORT}/zik`
   db = pgp(url)
-  //execute()
 }
-//async function execute(){
-//  const data = await db.any('SELECT * FROM users')
-//  console.log(data);
-//}
 //-- ADMIN DATABASE --
 export async function userExists(login){
   let login_san = "";

@@ -3,4 +3,6 @@
 html {
   overflow-y: scroll; /* toujours réserver l'espace pour la scrollbar */
 }
-
+.bg--index {
+  background-image: url("cover.png");
+}

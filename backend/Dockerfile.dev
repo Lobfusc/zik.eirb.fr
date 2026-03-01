@@ -1,0 +1,9 @@
+FROM node:alpine
+WORKDIR /app
+COPY ./package.json /app
+COPY ./ /app
+RUN npm install
+RUN mkdir -p /docker-entrypoint-initdb.d/ 
+EXPOSE 8080
+CMD ["npm", "run", "dev"]
+

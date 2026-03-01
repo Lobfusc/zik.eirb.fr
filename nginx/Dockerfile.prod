@@ -1,0 +1,21 @@
+# -- BUILD THE WEBSITE
+FROM node:alpine AS builder
+WORKDIR /app
+RUN apk add --no-cache bash
+
+COPY ./frontend/package.json ./
+RUN npm install
+
+COPY ./frontend/ ./
+RUN chmod +x ./build/build.sh
+RUN bash ./build/build.sh
+
+# -- NGINX
+
+FROM nginx
+RUN rm /etc/nginx/conf.d/default.conf
+COPY ./nginx/prod.conf /etc/nginx/conf.d/default.conf
+
+COPY --from=builder /app/dist /usr/share/nginx/html
+EXPOSE 80
+

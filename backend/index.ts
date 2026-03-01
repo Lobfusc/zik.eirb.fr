@@ -4,7 +4,6 @@ import pgPromise from 'pg-promise'
 import cors from 'cors'
 
 import dotenv from 'dotenv'
-//dotenv.config(/*{path : "../process.env"}*/) //Environement variables
 
 const port = process.env.PORT
 

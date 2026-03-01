@@ -2,6 +2,7 @@ services:
   frontend:
     build: 
       context: ./frontend/
+      dockerfile: ./Dockerfile.dev
     container_name: frontend
     working_dir: /app
     networks:
@@ -15,7 +16,8 @@ services:
     env_file:
       - ./process.env
     build: 
-      context: ./backend/
+      context: ./backend
+      dockerfile: ./Dockerfile.dev
     container_name: backend
     working_dir: /app
     networks:
@@ -42,7 +44,8 @@ services:
 
   nginx:
     build:
-      context: ./nginx/
+      context: ./nginx/ 
+      dockerfile: ./Dockerfile.dev
     container_name: nginx
     restart: always
     tty: true

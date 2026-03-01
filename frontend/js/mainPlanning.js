@@ -1,4 +1,3 @@
-import '../assets/style.css'
 //At the moment we use main.js to create the planning, but at least it will be located on a planning.js file
 import {initializePlanning, addOneWeek, minusOneWeek} from './utils/planningPage/planningView.js'
 import {toogleVisResForm, openHourPicker, toggleVisHourPicker, addHour, addMinutes, minHour, minMinutes, validateHourPicker, reserveADate} from './utils/planningPage/resForm.js'

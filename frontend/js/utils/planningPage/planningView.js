@@ -1,4 +1,5 @@
-import DOMPurify from 'dompurify';
+//import DOMPurify from 'dompurify'
+import DOMPurify from 'https://cdn.jsdelivr.net/npm/dompurify@3.0.9/+esm';
 import {getUsername, userIsAdmin} from '../auth/auth.js';
 //This is the date of the current session
 let ACTUAL_DISPLAY_DATE = new Date();
