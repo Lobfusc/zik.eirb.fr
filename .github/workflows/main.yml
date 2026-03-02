@@ -1,0 +1,29 @@
+name: Build and push docker image
+
+on: 
+  push:
+    branches : [ main ]
+    tags: [ 'v*.*.*' ]
+
+jobs:
+  build-and-push-back:
+    uses: Eirbware/.github/.github/workflows/build-and-publish.yml@master
+    with:
+      context: ./backend/
+      file: Dockerfile.prod
+      image_name: ${{ github.repository }}-backend
+    # registry_username and registry_api_key must be defined
+    secrets:
+      registry_username: ${{ secrets.registry_username }}
+      registry_api_key: ${{ secrets.registry_api_key }}
+      
+  build-and-push-front:
+    uses: Eirbware/.github/.github/workflows/build-and-publish.yml@master
+    with:
+      context: .
+      file: ./nginx/Dockerfile.prod
+      image_name: ${{ github.repository }}-frontend
+    # registry_username and registry_api_key must be defined
+    secrets:
+      registry_username: ${{ secrets.registry_username }}
+      registry_api_key: ${{ secrets.registry_api_key }}
