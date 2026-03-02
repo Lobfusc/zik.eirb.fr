@@ -7,9 +7,6 @@ services:
     working_dir: /app
     networks:
       - node-network
-    volumes: 
-      - ./backend/:/app
-      - /app/node_modules
     tty: true
     depends_on:
       - db
@@ -18,13 +15,12 @@ services:
   db:
     env_file:
       - ./stack.env
-    image: postgres
+    image: registry.eirb.fr/lobfusc/zik.eirb.fr-db:main
     container_name: db
     restart: always
     tty: true
     volumes:
-      - ./initdb/:/docker-entrypoint-initdb.d
-      - ./data:/var/lib/postgresql
+      - postgres-volume:/var/lib/postgresql
     networks:
       - node-network
 
@@ -43,10 +39,12 @@ services:
   redis:
     image: redis:8.6.1-alpine
     volumes:
-      - ./redis-data:/data
+      - redis-volume:/data
     networks:
       - node-network
-
+volumes:
+  redis-volume:
+  postgres-volume:
 networks:
   node-network:
     driver: bridge
