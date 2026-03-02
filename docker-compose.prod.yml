@@ -2,9 +2,7 @@ services:
   backend:
     env_file:
       - ./process.env
-    build: 
-      context: ./backend/
-      dockerfile: Dockerfile.prod
+    image: registry.eirb.fr/lobfusc/zik.eirb.fr-backend:main
     container_name: backend
     working_dir: /app
     networks:
@@ -31,9 +29,7 @@ services:
       - node-network
 
   nginx:
-    build:
-      context: .
-      dockerfile: ./nginx/Dockerfile.prod
+    image: registry.eirb.fr/lobfusc/zik.eirb.fr-frontend:main
     container_name: nginx
     restart: always
     tty: true
