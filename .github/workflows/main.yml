@@ -8,6 +8,8 @@ on:
 jobs:
   build-and-push-back:
     uses: Eirbware/.github/.github/workflows/build-and-publish.yml@master
+    permissions:
+      id-token: write
     with:
       context: ./backend/
       file: Dockerfile.prod
@@ -19,6 +21,8 @@ jobs:
       
   build-and-push-front:
     uses: Eirbware/.github/.github/workflows/build-and-publish.yml@master
+    permissions:
+      id-token: write
     with:
       context: .
       file: ./nginx/Dockerfile.prod
