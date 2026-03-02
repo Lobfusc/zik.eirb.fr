@@ -28,6 +28,7 @@ services:
     tty: true
     depends_on:
       - db
+      - redis
 
   db:
     env_file:
@@ -57,6 +58,14 @@ services:
     depends_on:
       - frontend
       - backend
+  redis:
+    image: redis:8.6.1-alpine
+    volumes:
+      - ./redis-data/:/data
+    networks:
+      - node-network
+
+
 
 networks:
   node-network:

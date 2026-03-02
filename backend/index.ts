@@ -2,7 +2,8 @@ import express from 'express'
 import session from 'express-session'
 import pgPromise from 'pg-promise'
 import cors from 'cors'
-
+import {RedisStore} from 'connect-redis'
+import {createClient} from 'redis'
 import dotenv from 'dotenv'
 
 const port = process.env.PORT
@@ -17,18 +18,30 @@ import reservation_routes from './routes/reservation.routes.ts'
 import admin_routes from './routes/admin.routes.ts'
 
 const app = express()
-//TODO : Problems with express session in prod
-app.use(session({
-  secret: process.env.COOKIE_ID,
-  resave: false,
-  saveUninitialized: true,
-  cookie: {
-    httpOnly: true,
-    secure: false, //PROD : TRUE
-    maxAge: 10*60*1000 //10 mins
-  }
 
-}))
+//Session
+const redisClient = createClient({
+  url: 'redis://redis'
+});
+redisClient.on('error', (err) => console.error('Erreur Redis Client', err)); //Redirection of errors
+await redisClient.connect();
+const redisStore_var = new RedisStore({
+  client: redisClient,
+  prefix: "sess:",
+});
+
+app.use(session({
+    store: redisStore_var,
+    resave: false,
+    saveUninitialized: false,
+    secret: process.env.COOKIE_ID,
+    cookie: {
+        secure: false, //PROD : TRUE
+        httpOnly: true,
+        maxAge: 10*60*1000 // 10 mins
+    }
+}));
+
 
 //Middleware
 app.use(express.json());
