@@ -25,12 +25,14 @@ services:
       - node-network
 
   nginx:
+    env_file:
+      - ./stack.env
     image: registry.eirb.fr/lobfusc/zik.eirb.fr-frontend:main
     container_name: nginx
     restart: always
     tty: true
     ports:
-      - "8080:80"
+      - ${PORT:-10071}:80
     networks: 
       - node-network
     depends_on:
@@ -38,6 +40,7 @@ services:
   
   redis:
     image: redis:8.6.1-alpine
+    container_name: redis
     volumes:
       - redis-volume:/data
     networks:
