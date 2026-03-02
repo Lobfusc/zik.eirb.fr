@@ -13,7 +13,7 @@ jobs:
       id-token: write
     with:
       context: ./backend/
-      file: Dockerfile.prod
+      file: ./backend/Dockerfile.prod
       image_name: ${{ github.repository }}-backend
     # registry_username and registry_api_key must be defined
     secrets:
