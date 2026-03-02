@@ -32,7 +32,7 @@ services:
     restart: always
     tty: true
     ports:
-      - ${PORT:-10071}:80
+      - ${WEB_PORT:-8080}:80
     networks: 
       - node-network
     depends_on:
