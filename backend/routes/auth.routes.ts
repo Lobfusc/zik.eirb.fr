@@ -17,6 +17,7 @@ router.get('/login', async (req, res) => {
     res.redirect(redirectUrl);
     
   } catch (error) {
+    console.log(error);
     res.send("HTTP Error");
   }
 
@@ -59,6 +60,7 @@ router.get('/auth/callback', async (req, res) => {
     req.session.token_id = user.token_id; //and the token id for logout
     res.redirect(process.env.FRONTEND_IP);
   } catch (error) {
+    console.log(error);
     res.send('HTTP Error');
   }
 });
@@ -82,6 +84,8 @@ router.get('/logout', async (req, res) => {
     res.redirect(redirectTo.redirectUrl);
   });
   }catch(error){
+
+    console.log(error);
   }
 });
 
