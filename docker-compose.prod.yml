@@ -38,7 +38,6 @@ services:
     restart: always
     tty: true
     ports:
-      - "80:80"
       - "8080:80"
     networks: 
       - node-network
