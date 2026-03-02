@@ -47,3 +47,12 @@ jobs:
     secrets:
       registry_username: ${{ secrets.registry_username }}
       registry_api_key: ${{ secrets.registry_api_key }}
+      
+  deploy:
+    needs: [ build-and-push-front, build-and-push-back, build-and-push-db ]
+    uses: Eirbware/.github/.github/workflows/deploy-stack.yml@master
+    # portainer_stack_webhook must be defined
+    secrets: 
+        portainer_stack_webhook: ${{ secrets.portainer_stack_webhook }}
+        wireguard_conf: ${{ secrets.wireguard_conf }}
+
