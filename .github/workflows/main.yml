@@ -33,3 +33,17 @@ jobs:
     secrets:
       registry_username: ${{ secrets.registry_username }}
       registry_api_key: ${{ secrets.registry_api_key }}
+
+  build-and-push-db:
+    uses: Eirbware/.github/.github/workflows/build-and-publish.yml@master
+    permissions:
+      contents: read
+      id-token: write
+    with:
+      context: ./initdb
+      file: ./initdb/Dockerfile.prod
+      image_name: ${{ github.repository }}-db
+    # registry_username and registry_api_key must be defined
+    secrets:
+      registry_username: ${{ secrets.registry_username }}
+      registry_api_key: ${{ secrets.registry_api_key }}
