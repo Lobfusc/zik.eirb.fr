@@ -103,20 +103,22 @@ async function shrinkRes(request, data){
       }
 
       //Second Case : the member reservation has to be modified by the down
-      if (member_start_time<=admin_start_time && member_end_time<=admin_end_time){
+      if (member_start_time<=admin_start_time && member_end_time<=admin_end_time && member_start_time!= admin_start_time && member_end_time != admin_end_time){
         const data = await db.none("UPDATE timetable SET end_date=$1 WHERE id=$2", [admin_start_time, element.id])
+
       }
       //Third Case : the member reservation has to be modified by the up
-      if (member_start_time>=admin_start_time && member_end_time>=admin_end_time){
+      if (member_start_time>=admin_start_time && member_end_time>=admin_end_time && member_start_time!= admin_start_time && member_end_time != admin_end_time){
         const data = await db.none("UPDATE timetable SET start_date=$1 WHERE id=$2", [admin_end_time, element.id])
+
       }
 
       //Last Case : if the member reservation is bigger than the admin one
-      if (member_start_time<admin_start_time && member_end_time>admin_end_time){
+      if (member_start_time<admin_start_time && member_end_time>admin_end_time && member_start_time!= admin_start_time && member_end_time != admin_end_time){
         //Delete it and recreate two 
         const data = await db.none("DELETE FROM timetable WHERE id=$1", element.id);
-        const data2 = await db.none("INSERT INTO timetable(name,start_date,end_date,id_user,res_admin) VALUES($1,$2,$3,$4,$5);", [request.name, request.start_time,admin_start_time,id.id_user,request.admin]);
-        const data3 = await db.none("INSERT INTO timetable(name,start_date,end_date,id_user,res_admin) VALUES($1,$2,$3,$4,$5);", [request.name, admin_end_time,request.end_time,id.id_user,request.admin]);
+        const data2 = await db.none("INSERT INTO timetable(name,start_date,end_date,id_user,res_admin) VALUES($1,$2,$3,$4,$5);", [element.name, member_start_time,admin_start_time,element.id_user,element.admin]);
+        const data3 = await db.none("INSERT INTO timetable(name,start_date,end_date,id_user,res_admin) VALUES($1,$2,$3,$4,$5);", [element.name, admin_end_time,member_end_time,element.id_user,element.admin]);
       }
 
     } catch (error) {
