@@ -28,9 +28,9 @@ export async function userPermissions(login){
   let login_san = "";
   login_san = sanitizeHtml(login);
   try {
-    const member = false;
-    const admin = false;
-    const data = await db.any('SELECT admin,member FROM users WHERE login_cas=$1;', [login_san]);
+    let member = false;
+    let admin = false;
+    let data = await db.any('SELECT admin,member FROM users WHERE login_cas=$1;', [login_san]);
     member = data[0].member;
     admin = data[0].admin;
     return {

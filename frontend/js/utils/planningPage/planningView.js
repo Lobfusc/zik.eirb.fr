@@ -12,6 +12,10 @@ const BACKEND_DEL_RES = "/api/deleteReservation"
 //-> the timetable is just a fixed grid where we clear all the childs, and mooves the dates
 //on each click, it searchs the backend reservations. and clear the grid for the new one.
 
+//Returns at the line at each 15 lines for CSS
+function breakAfter15(str) {
+  return str.match(/.{1,15}/g).join("\n");
+}
 //The function gives the monday of the week
 function getMondayOfTheWeek(d){
 	let date = new Date(d);
@@ -74,10 +78,10 @@ async function displayReservationsOfTheDate(date, day){
        const end_date_el = new Date(element.end_date);
 
         //Get hours and minutes
-       const start_hour = start_date_el.getHours();
+       const start_hour = start_date_el.getHours() - 1; //Bc it add an hour, but in the database it's the good hour
        const start_minutes = start_date_el.getMinutes();
 
-       const end_hour = end_date_el.getHours();
+       const end_hour = end_date_el.getHours() - 1;
        const end_minutes = end_date_el.getMinutes();
 
         //display_.. is for the minutes with 00
@@ -127,12 +131,14 @@ async function displayReservationsOfTheDate(date, day){
         //The title of the Reservation
       let display_title = element.name;
       display_title = DOMPurify.sanitize(display_title);
+      display_title = breakAfter15(display_title);
       let new_title = document.createElement('h3');
       new_title.textContent = display_title;
 
         //The owned by 
       let display_owner = element.login_cas;
       display_owner = DOMPurify.sanitize(display_owner);
+      display_owner = breakAfter15(display_title);
       let new_res_owner = document.createElement('p');
       new_res_owner.classList = "text-gray-300";
 
