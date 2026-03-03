@@ -60,6 +60,14 @@ function verifyDateHours(request) {
   return {accepted : true, msg: "No error"}
 }
 
+function verifyMaxLength(request){
+  if (request.body.name.length > 40){
+    return {accepted : false, msg: "Erreur : nom de réservation trop long"}
+  }
+
+    return {accepted : true, msg: "No error"}
+}
+
 function verifyEmpty(request){
   if (request.body.name ==="" || request.body.data==="" || request.body.start_res_hour==="" || request.body.start_res_min==="" || request.body.end_res_hour==="" || request.body.end_res_min===""){
     return {accepted : false, msg: "Erreur : réservation invalide, données manquantes"}
@@ -83,6 +91,8 @@ export async function reserve_slot(request){
     rsp = verifyEmpty(request);
     if (rsp.accepted == false){return rsp}
 
+    rsp = verifyMaxLength(request);
+    if (rsp.accepted == false){return rsp}
 
     //Verify if the hours and date are valid
       rsp = verifyDateHours(request);
