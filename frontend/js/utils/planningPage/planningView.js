@@ -14,7 +14,37 @@ const BACKEND_DEL_RES = "/api/deleteReservation"
 
 //Returns at the line at each 15 lines for CSS
 function breakAfter15(str) {
-  return str.match(/.{1,15}/g).join("\n");
+  if (!str) return "";
+
+  const words = str.split(/\s+/);
+  const lines = [];
+  let currentLine = "";
+
+  for (let word of words) {
+
+    // If the word is lower than 15
+    while (word.length > 15) {
+      if (currentLine) {
+        lines.push(currentLine);
+        currentLine = "";
+      }
+      lines.push(word.slice(0, 15));
+      word = word.slice(15);
+    }
+
+    // New line if the current is too big
+    if ((currentLine + (currentLine ? " " : "") + word).length > 15) {
+      lines.push(currentLine);
+      currentLine = word;
+    } else {
+      currentLine += (currentLine ? " " : "") + word;
+    }
+  }
+  if (currentLine) {
+    lines.push(currentLine);
+  }
+
+  return lines.join("\n");
 }
 //The function gives the monday of the week
 function getMondayOfTheWeek(d){
@@ -138,7 +168,7 @@ async function displayReservationsOfTheDate(date, day){
         //The owned by 
       let display_owner = element.login_cas;
       display_owner = DOMPurify.sanitize(display_owner);
-      display_owner = breakAfter15(display_title);
+      display_owner = breakAfter15(display_owner);
       let new_res_owner = document.createElement('p');
       new_res_owner.classList = "text-gray-300";
 
