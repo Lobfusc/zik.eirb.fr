@@ -35,7 +35,7 @@ services:
       - ./stack.env
     image: postgres
     container_name: db
-    restart: always
+    restart: no
     tty: true
     volumes:
       - ./initdb/:/docker-entrypoint-initdb.d
@@ -48,7 +48,7 @@ services:
       context: ./nginx/ 
       dockerfile: ./Dockerfile.dev
     container_name: nginx
-    restart: always
+    restart: no
     tty: true
     ports:
       - "80:80"
