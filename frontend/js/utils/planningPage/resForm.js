@@ -2,13 +2,22 @@
 const backend_reserve_a_date = "/api/reservation";
 
 //CONFIG
-const default_hour = 8;
-const default_minutes = 0;
+const default_hour = 7;
+const default_minutes = 30;
 const default_min_interval_for_res = 15;
 
-const start_hour = 8;
-const end_hour = 22;
+const start_hour = 7;
+const start_minutes = 30
+
+const end_hour_week = 22;
+const end_minutes_week = 30;
+
+const end_hour_sat = 19;
+const end_minutes_sat = 30;
+
+
 const interval_btw_min = 15;
+
 //GLOBALS
 let hour;
 let minutes;
@@ -21,6 +30,7 @@ let end_res_hour = null;
 let end_res_min = null;
 
 let date_reservation = null;
+
 
 
 //Open Reservation Form
@@ -104,42 +114,47 @@ export function reserveADate() {
 //Open hour Picker, start if this is the start Picker, end, if this is the end picker
 //We use the same code for both
 export function openHourPicker(status) {
-    //Get an error Message if end hour before start 
-    if (status === "end" && (start_res_hour == null || start_res_min == null)) {
-        errorMessage("Erreur : veuillez choisir une heure de début avant de choisir une heure de fin");
-    } else {
-        document.getElementById('HourPicker').toggleAttribute('hidden');
-        hour = default_hour;
-        minutes = default_minutes;
 
-        display_minutes();
-        display_hour();
-        //Start hour Picker
-        if (status === "start") {
-            document.getElementById('titleHourPicker').textContent = "Heure de début";
-            which_hour_picker = "start"; //Global variable
+    if (isSunday()){
+            errorMessage("Erreur : vous ne pouvez pas réserver un dimanche")
+    }else{    
 
-            //Reinitialize the end picker to prevent bugs of hours
-            document.getElementById("endHourPicker").classList.remove('text-left');
-            document.getElementById("endHourPicker").classList.add('text-right');
-            document.getElementById("endHourPicker").textContent = "⏱";
+        //Get an error Message if end hour before start 
+        if (status === "end" && (start_res_hour == null || start_res_min == null)) {
+            errorMessage("Erreur : veuillez choisir une heure de début avant de choisir une heure de fin");
+        } else {
+            document.getElementById('HourPicker').toggleAttribute('hidden');
+            hour = default_hour;
+            minutes = default_minutes;
 
-        }
-        //End hour Picker
-        if (status === "end") {
-            document.getElementById('titleHourPicker').textContent = "Heure de fin";
-            which_hour_picker = "end";
-            if (start_res_hour !== null && start_res_min !== null) {
-                //initialize to the start hour + default interval 
-                hour = start_res_hour;
-                minutes = start_res_min;
+            display_minutes();
+            display_hour();
+            //Start hour Picker
+            if (status === "start") {
+                document.getElementById('titleHourPicker').textContent = "Heure de début";
+                which_hour_picker = "start"; //Global variable
+
+                //Reinitialize the end picker to prevent bugs of hours
+                document.getElementById("endHourPicker").classList.remove('text-left');
+                document.getElementById("endHourPicker").classList.add('text-right');
+                document.getElementById("endHourPicker").textContent = "⏱";
+
             }
+            //End hour Picker
+            if (status === "end") {
+                document.getElementById('titleHourPicker').textContent = "Heure de fin";
+                which_hour_picker = "end";
+                if (start_res_hour !== null && start_res_min !== null) {
+                    //initialize to the start hour + default interval 
+                    hour = start_res_hour;
+                    minutes = start_res_min;
+                }
+            }
+            display_hour();
+            display_minutes();
+
         }
-        display_hour();
-        display_minutes();
-
     }
-
 }
 
 //Toogle visibility for close and open buttons
@@ -199,59 +214,118 @@ function refresh_end_label() {
     }
 
 }
+
+function isSunday(){
+    let date_reservation = document.getElementById("dateReservation").value;
+    let DATE_RES = new Date(date_reservation)
+
+    return DATE_RES.getDay() == 0
+}
+
+//Get the day of the current reservation
+function getMinMaxDate(){
+    let date_reservation = document.getElementById("dateReservation").value;
+    let DATE_RES = new Date(date_reservation)
+
+    //The user date must be between min date and max date 
+    let MIN_DATE = new Date(date_reservation)
+    MIN_DATE.setHours(start_hour, start_minutes, 0,0);
+
+    let MAX_DATE = new Date(date_reservation)
+    
+    //The saturday case
+    if (DATE_RES.getDay() == 6){
+        MAX_DATE.setHours(end_hour_sat, end_minutes_sat, 0, 0);
+    }else{
+        MAX_DATE.setHours(end_hour_week, end_minutes_week, 0, 0);
+    }
+    return [MIN_DATE, MAX_DATE] 
+}
+
 //add 1 Hour
 export function addHour() {
-    //Patch the bug they think they can reserve after
-    if (hour < end_hour - 1) {
-        hour += 1;
+    let [MIN_DATE, MAX_DATE] = getMinMaxDate();
+    
+    let date_reservation = document.getElementById("dateReservation").value;
+    let current = new Date(date_reservation)
+    current.setHours(hour+1, minutes, 0, 0)
+
+    if (MIN_DATE <= current && current <= MAX_DATE){
+        hour+=1
+    }  
+    display_hour();
+    display_minutes();
+}
+
+//add interval_btw_minutes Minute(s)
+export function addMinutes() {
+    let day = getMinMaxDate()
+
+    //Penser au bug si c'est en dessous de start res hour +15 % 60
+    let [MIN_DATE, MAX_DATE] = getMinMaxDate();
+    
+    let date_reservation = document.getElementById("dateReservation").value;
+    let current = new Date(date_reservation)
+    if (minutes != 45){
+        current.setHours(hour, minutes+15, 0, 0)
+    }else{
+        current.setHours(hour+1, 0, 0, 0)
     }
+    
+    if (MIN_DATE <= current && current <= MAX_DATE){
+        if (minutes == 45){
+            minutes = 0
+            hour+=1
+        }else{
+            minutes += 15
+        }
+    }  
     display_hour();
     display_minutes();
 
 }
 
-//add interval_btw_minutes Minute(s)
-export function addMinutes() {
-    //Block reset mins to 00 if it's under the start res hour
-    if (!(minutes == 60 - interval_btw_min && hour == start_res_hour)) {
-
-        if (hour != end_hour) {
-            minutes += interval_btw_min;
-        }
-        if (minutes == 60) {
-            minutes = 0;
-        }
-        display_minutes();
-
-    }
-}
-
 //minusHour
 export function minHour() {
-    //Block if you want to go before start hour OR if you want to up the Hour to have a minus minutes and then re minus the hour
-    if (!((hour == start_res_hour) || (hour - 1 == start_res_hour && minutes < start_res_min))) {
-        if (hour > start_hour) {
-            hour -= 1;
-            display_hour();
-        }
+    let [MIN_DATE, MAX_DATE] = getMinMaxDate();
+    
+    let date_reservation = document.getElementById("dateReservation").value;
+    let current = new Date(date_reservation)
+    current.setHours(hour-1, minutes, 0, 0)
 
-    }
+    if (MIN_DATE <= current && current <= MAX_DATE){
+        hour-=1
+    }  
+    display_hour();
+    display_minutes();
 }
 
 //minusMinutes
 export function minMinutes() {
-    //Block if you want to go minus the start res min and hour
-    if (!(minutes == start_res_min && start_res_hour == hour)) {
-        if (hour != end_hour) {
-            minutes -= interval_btw_min;
-        }
+    let day = getMinMaxDate()
 
-        if (minutes == -1 * interval_btw_min) {
-            minutes = 60 - interval_btw_min;
-        }
-        display_minutes();
-
+    //Penser au bug si c'est en dessous de start res hour +15 % 60
+    let [MIN_DATE, MAX_DATE] = getMinMaxDate();
+    
+    let date_reservation = document.getElementById("dateReservation").value;
+    let current = new Date(date_reservation)
+    if (minutes != 0){
+        current.setHours(hour, minutes-15, 0, 0)
+    }else{
+        current.setHours(hour-1, 45, 0, 0)
     }
+    
+    if (MIN_DATE <= current && current <= MAX_DATE){
+        if (minutes == 0){
+            minutes = 45
+            hour-=1
+        }else{
+            minutes -= 15
+        }
+    }  
+    display_hour();
+    display_minutes();
+
 }
 
 
