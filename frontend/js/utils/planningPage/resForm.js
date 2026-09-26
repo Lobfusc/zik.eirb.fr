@@ -41,7 +41,7 @@ export function toogleVisResForm() {
 
 
     if (document.getElementById('modalOverlay').getAttribute('hidden') !== null) {
-        document.getElementById("resDate").textContent = "Réserver pour le " + day + "/" + month_plus_one;
+        document.getElementById("resDate").textContent = "Réserver le zik !";
         //Put the Actual date for the resa
         const year = date.getFullYear();
         const month_pad = String(date.getMonth() + 1).padStart(2, '0')
