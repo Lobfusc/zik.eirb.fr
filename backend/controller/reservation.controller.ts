@@ -2,8 +2,6 @@ import { isLogged, isMember, isAdmin, isMemberOrAdmin, currentLogin } from '../a
 import { createReservation } from '../db/database.ts'
 import sanitizeHtml from 'sanitize-html';
 
-const start_hour = 7;
-const end_hour = 21;
 
 function castToTsRange(date, start_res_hour, start_res_min, end_res_hour, end_res_min) {
     //The thing is that the modal hour selection on the front end uses multiple functions.
@@ -31,13 +29,7 @@ function testsBeforeSQL(request, admin) {
 }
 
 function verifyDateHours(request) {
-    if (Number.isInteger(request.body.start_res_hour) && Number.isInteger(request.body.start_res_min) && request.body.start_res_hour < start_hour && request.body.start_res_min < 0) {
-        return { accepted: false, msg: "Erreur : réservation invalide, vérifiez l'horaire de début" }
-    }
 
-    if (Number.isInteger(request.body.end_res_hour) && Number.isInteger(request.body.end_res_min) && request.body.end_res_hour > end_hour && request.body.end_res_min > endMin) {
-        return { accepted: false, msg: "Erreur : réservation invalide, vérifiez l'horaire de fin" }
-    }
 
     //Verify the date
     const [year, month, day] = request.body.date.split('-').map((s) => Number(sanitizeHtml(s)));
@@ -45,15 +37,56 @@ function verifyDateHours(request) {
     const actual_year = new Date().getFullYear()
     const actual_date = new Date();
 
+    //Cannot reserve the sunday
+    if (input_date.getDay() === 0){
+        return { accepted: false, msg: "Erreur : réservation impossible le dimanche, vérifiez les horaires" }
+    }
+
+    //Verify integers
+    if (! (Number.isInteger(request.body.start_res_hour) && Number.isInteger(request.body.start_res_min) && Number.isInteger(request.body.end_res_hour) && Number.isInteger(request.body.end_res_min) )){
+        return { accepted: false, msg: "Erreur : réservation invalide" }
+    }
+
+    //Every morning it's like 7:30 to ...    
+    if (request.body.start_res_hour < 7 && request.body.start_res_min < 30) {
+        return { accepted: false, msg: "Erreur : réservation invalide, vérifiez l'horaire de début" }
+    }
+
+    //if it's saturday
+    if (input_date.getDay() == 6){
+        //max is 19:30
+        if (request.body.end_res_hour > 19 && request.body.end_res_min > 30) {
+            return { accepted: false, msg: "Erreur : réservation invalide, vérifiez l'horaire de fin" }
+        }
+    }else{
+        //max is 22:30
+        if (request.body.end_res_hour > 22 && request.body.end_res_min > 30) {
+            return { accepted: false, msg: "Erreur : réservation invalide, vérifiez l'horaire de fin" }
+        }
+    }
+
+ 
+
     //Verify if the end res hour is after the start res hour, and if not the min 
     if ((request.body.end_res_min) % 15 != 0 || (request.body.start_res_min) % 15 != 0 || request.body.start_res_hour > request.body.end_res_hour || (request.body.start_res_hour == request.body.end_res_hour && request.body.start_res_min >= request.body.end_res_min)) {
         return { accepted: false, msg: "Erreur : réservation invalide, vérifiez les horaires" }
     }
+    
 
     //If this is a passed date
     input_date.setHours(request.body.start_res_hour, request.body.start_res_min, 0, 0); //UTC JS no need to convert
 
-    //verify if it's the actual year and valid day.
+
+    //If it's not an admin reservation, max 3h
+    if (!request.body.admin){
+        let start_minutes = request.body.start_res_hour * 60 + request.body.start_res_min
+        let end_minutes = request.body.end_res_hour * 60 + request.body.end_res_min
+        if (end_minutes - start_minutes > 180){
+            return { accepted: false, msg: "Erreur : réservation trop longue" }
+        }
+    }
+
+    //verify if it's the actual year and valid day. Verify if the start is before now
     if (!(parseInt(year) === parseInt(actual_year) && parseInt(input_date.getFullYear()) === parseInt(year) && parseInt(input_date.getMonth()) === parseInt(month - 1) && parseInt(input_date.getDate()) === parseInt(day) && actual_date <= input_date)) {
         return { accepted: false, msg: "Erreur : réservation invalide, vérifiez la date" }
     }
