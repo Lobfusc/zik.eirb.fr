@@ -77,6 +77,8 @@ async function initializeDaysOnTimeTable(monday_date){
 	const id_days = ["lundi", "mardi", "mercredi", "jeudi", "vendredi", "samedi", "dimanche"];
 
 	let date_current_day = new Date(monday_date);
+     
+  document.getElementById('calendar').hidden = true
 
 	document.getElementById(id_days[0]).textContent = id_days[0] + " " + date_current_day.getDate();
   await displayReservationsOfTheDate(date_current_day, 1);
@@ -86,6 +88,7 @@ async function initializeDaysOnTimeTable(monday_date){
     await displayReservationsOfTheDate(date_current_day, i+1);
 
   }
+    document.getElementById('calendar').hidden = false
 }
 //This function fetchs the backend to have the reservations of a specific day
 //(date,day) : the date for the fetch and the day to display on the right column in the frontend
@@ -98,6 +101,7 @@ async function displayReservationsOfTheDate(date, day){
     const is_client_admin = await userIsAdmin();
     if (res.ok){ //Ok when no problem
       //Here data is the actual of the day 
+
       
       //the frontend has for id for each day day:{numberOfTheDay 1-> 7}
       data.value.forEach(element => {
