@@ -112,10 +112,10 @@ async function displayReservationsOfTheDate(date, day){
        const end_date_el = new Date(element.end_date);
 
         //Get hours and minutes
-       const start_hour = start_date_el.getHours() - 1; //Bc it add an hour, but in the database it's the good hour
+       const start_hour = start_date_el.getUTCHours(); //Bc it add an hour, but in the database it's the good hour
        const start_minutes = start_date_el.getMinutes();
 
-       const end_hour = end_date_el.getHours() - 1;
+       const end_hour = end_date_el.getUTCHours();
        const end_minutes = end_date_el.getMinutes();
 
         //display_.. is for the minutes with 00

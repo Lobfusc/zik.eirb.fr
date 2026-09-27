@@ -6,7 +6,7 @@
   --stage-gap: 0.2rem;
   --stage-width: min(100vw - var(--th-width) - 3rem,10rem);
   --start-time: 7;
-  --end-time: 22;
+  --end-time: 23;
   --event-duration: calc(var(--end-time) - var(--start-time) + 1);
   
   --rows: auto repeat(calc(var(--event-duration) * 12), minmax(var(--time-unit-height), auto));
