@@ -73,22 +73,31 @@ async function deleteReservation(id_res){
 }
 
 //This function create the right display with the right dates on the planning
+
 async function initializeDaysOnTimeTable(monday_date){
-	const id_days = ["lundi", "mardi", "mercredi", "jeudi", "vendredi", "samedi", "dimanche"];
-
-	let date_current_day = new Date(monday_date);
+  const id_days = ["lundi", "mardi", "mercredi", "jeudi", "vendredi", "samedi", "dimanche"];
+  let date_current_day = new Date(monday_date);
      
-  document.getElementById('calendar').hidden = true
+  document.getElementById('calendar').hidden = true;
 
-	document.getElementById(id_days[0]).textContent = id_days[0] + " " + date_current_day.getDate();
-  await displayReservationsOfTheDate(date_current_day, 1);
-  for (let i = 1; i<id_days.length; i = i+1){
-    date_current_day.setDate(date_current_day.getDate() + 1);
+  // Préparer un tableau de promesses pour les 7 jours de la semaine
+  const promises = [];
+
+  for (let i = 0; i < id_days.length; i++) {
+    // Mettre à jour l'en-tête du jour
     document.getElementById(id_days[i]).textContent = id_days[i] + " " + date_current_day.getDate();
-    await displayReservationsOfTheDate(date_current_day, i+1);
+    
+    // Lancer la récupération et l'affichage en parallèle (sans await ici)
+    promises.push(displayReservationsOfTheDate(new Date(date_current_day), i + 1));
 
+    // Passer au jour suivant pour la boucle
+    date_current_day.setDate(date_current_day.getDate() + 1);
   }
-    document.getElementById('calendar').hidden = false
+
+  // Attendre que tous les jours soient complètement chargés et affichés
+  await Promise.all(promises);
+
+  document.getElementById('calendar').hidden = false;
 }
 //This function fetchs the backend to have the reservations of a specific day
 //(date,day) : the date for the fetch and the day to display on the right column in the frontend
