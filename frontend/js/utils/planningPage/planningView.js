@@ -197,19 +197,27 @@ async function displayReservationsOfTheDate(date, day){
   return;
 }
 
+let isRefreshing = false;
 //Refresh the entire display of the dates 
 async function refreshDisplayOfTheTimeTable(d){
-	let monday_of_the_actual_week = getMondayOfTheWeek(d);
+  if (isRefreshing) return;
+  isRefreshing = true;
 
-	let month_of_monday = monday_of_the_actual_week.getMonth() + 1;
-	let date_of_the_monday = monday_of_the_actual_week.getDate();
+  try {
+	  let monday_of_the_actual_week = getMondayOfTheWeek(d);
 
-	if (month_of_monday <=9){
-		month_of_monday = "0"+month_of_monday;
-	}
-	let message = "Semaine du " + date_of_the_monday + "/" + month_of_monday; 
-	document.getElementById("datechanger").textContent = message;
-	await initializeDaysOnTimeTable(monday_of_the_actual_week);
+	  let month_of_monday = monday_of_the_actual_week.getMonth() + 1;
+	  let date_of_the_monday = monday_of_the_actual_week.getDate();
+
+	  if (month_of_monday <=9){
+	  	month_of_monday = "0"+month_of_monday;
+	  }
+	  let message = "Semaine du " + date_of_the_monday + "/" + month_of_monday; 
+	  document.getElementById("datechanger").textContent = message;
+	  await initializeDaysOnTimeTable(monday_of_the_actual_week);
+  } finally{
+    isRefreshing = false;
+  }
 }
 //Clear the table on a new week
 function clearTable(){
