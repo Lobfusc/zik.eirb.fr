@@ -61,14 +61,16 @@ function getMondayOfTheWeek(d){
 }
 
 async function deleteReservation(id_res){
-  try {
-    const res = await fetch(BACKEND_DEL_RES + `?id=${id_res}`, { credentials: "include",});
-    const data = await res.json();
-    if (res.ok){
-      window.location.reload();
+  if (confirm("Êtes-vous sûr de vouloir supprimer cette réservation ?")){
+    try {
+      const res = await fetch(BACKEND_DEL_RES + `?id=${id_res}`, { credentials: "include",});
+      const data = await res.json();
+      if (res.ok){
+        window.location.reload();
+      }
+    } catch (error) {
+      return; 
     }
-  } catch (error) {
-    return; 
   }
 }
 
